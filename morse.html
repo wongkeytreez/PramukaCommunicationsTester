@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Morse Code Trainer</title>
+  </head>
+
+  <body
+    style="
+      padding: 0;
+      margin: 0;
+      background: linear-gradient(
+          rgba(255, 255, 255, 0.35),
+          rgba(255, 255, 255, 0.35)
+        ),
+        url(bg.png) center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: sans-serif;
+      color: #333;
+    "
+  >
+    <script src="index.js"></script>
+    <script src="morse.js"></script>
+
+    <!-- HEADER -->
+    <header
+      style="
+        height: 10vh;
+        background-color: lightblue;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <h1 style="padding: 10px; cursor: default">Morse code trainer</h1>
+
+      <h1
+        style="
+          padding: 10px;
+          cursor: pointer;
+          border-bottom: 2px solid transparent;
+        "
+        onmouseover="this.style.borderBottom='2px solid black'"
+        onmouseout="this.style.borderBottom='2px solid transparent'"
+        onclick="window.location.href=`semaphore.html`;"
+      >
+        Semaphore trainer
+      </h1>
+
+      <h1
+        style="
+          padding: 10px;
+          cursor: pointer;
+          border-bottom: 2px solid transparent;
+        "
+        onmouseover="this.style.borderBottom='2px solid black'"
+        onmouseout="this.style.borderBottom='2px solid transparent'"
+        onclick="window.location.href=`sandi.html`;"
+      >
+        Sandi Trainer
+      </h1>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <div
+      style="
+        width: 90%;
+        max-width: 500px;
+        margin-top: 30px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(3px);
+      "
+    >
+      <!-- WPM -->
+      <div style="margin-bottom: 25px">
+        <h4 style="margin: 5px 0">Words per minute (WPM)</h4>
+        <input
+          type="range"
+          min="1"
+          max="13"
+          value="9"
+          id="wpm"
+          style="width: 100%"
+          oninput="this.nextElementSibling.textContent = this.value"
+        />
+        <p
+          style="
+            display: inline-block;
+            padding: 3px 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: white;
+          "
+        >
+          9
+        </p>
+      </div>
+
+      <!-- Frequency -->
+      <div style="margin-bottom: 25px">
+        <h4 style="margin: 5px 0">Frequency</h4>
+        <input
+          type="range"
+          min="300"
+          max="900"
+          value="550"
+          id="frequency"
+          style="width: 100%"
+          oninput="this.nextElementSibling.textContent = this.value"
+        />
+        <p
+          style="
+            display: inline-block;
+            padding: 3px 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: white;
+          "
+        >
+          550
+        </p>
+      </div>
+
+      <!-- Amount of words -->
+      <div style="margin-bottom: 25px">
+        <h4>Amount of words generated</h4>
+        <input
+          type="number"
+          min="1"
+          max="15"
+          id="amount of words generated"
+          value="1"
+          style="width: 100%; padding: 5px; border-radius: 6px"
+        />
+      </div>
+
+      <!-- Mistakes -->
+      <div style="margin-bottom: 25px">
+        <h4>Amount of mistakes while generating</h4>
+        <input
+          type="number"
+          min="1"
+          max="15"
+          id="mistakes per letter"
+          value="0"
+          style="width: 100%; padding: 5px; border-radius: 6px"
+        />
+      </div>
+      <!-- LANGUAGE SELECTOR -->
+      <h4>Language</h4>
+      <select id="language">
+        <option value="en">English</option>
+        <option value="id">Indonesian</option>
+      </select>
+
+      <h4>Play type</h4>
+      <select id="playType">
+        <option value="buzzer">Buzzer</option>
+        <option value="whistle">Whistle</option>
+      </select>
+
+      <!-- PLAY BUTTON -->
+      <button
+        style="
+          background-color: lightgreen;
+          font-size: 1.7rem;
+          width: 100%;
+          padding: 10px;
+          border-radius: 10px;
+          border: none;
+          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+          cursor: pointer;
+        "
+        onclick="playMorse()"
+        id="playButton"
+      >
+        PLAY
+      </button>
+    </div>
+    <!-- RESULT PANEL -->
+    <div
+      id="resultsPanel"
+      style="
+        margin-top: 25px;
+        padding: 15px;
+        border: 1px solid #333;
+        border-radius: 10px;
+        background: white;
+        width: 90%;
+        max-width: 500px;
+        filter: blur(8px);
+        pointer-events: none;
+        transition: 0.3s;
+      "
+    >
+      <h3>Results</h3>
+
+      <p><b>Morse:</b> <span id="resultMorse">---</span></p>
+      <p><b>Text:</b> <span id="resultText">---</span></p>
+      <p><b>Text w/ mistakes:</b> <span id="resultMistake">---</span></p>
+    </div>
+
+    <!-- SHOW BUTTON (unblurs panel) -->
+    <button
+      id="showResultsBtn"
+      style="margin-top: 10px; padding: 10px; font-size: 1rem"
+      onclick="showResults()"
+      disabled
+    >
+      Show Results
+    </button>
+  </body>
+</html>
