@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semaphore Trainer</title>
+  </head>
+
+  <body
+    style="
+      padding: 0;
+      margin: 0;
+      background: linear-gradient(
+          rgba(255, 255, 255, 0.35),
+          rgba(255, 255, 255, 0.35)
+        ),
+        url(bg.png) center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: sans-serif;
+      color: #333;
+    "
+  >
+    <!-- HEADER -->
+    <header
+      style="
+        height: 10vh;
+        background-color: lightblue;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <h1
+        style="padding: 10px; cursor: pointer"
+        onclick="window.location.href='morse.html'"
+      >
+        Morse code trainer
+      </h1>
+
+      <h1 style="padding: 10px; cursor: default; box-shadow: 10px 10px grey">
+        Semaphore trainer
+      </h1>
+
+      <h1
+        style="padding: 10px; cursor: pointer"
+        onclick="window.location.href='sandi.html'"
+      >
+        Sandi trainer
+      </h1>
+    </header>
+
+    <!-- CONTROLS -->
+    <div
+      style="
+        width: 90%;
+        max-width: 500px;
+        margin-top: 30px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(3px);
+      "
+    >
+      <!-- FPS -->
+      <div style="margin-bottom: 25px">
+        <h4>Animation FPS</h4>
+        <input
+          type="range"
+          min="10"
+          max="120"
+          value="60"
+          id="fps"
+          style="width: 100%"
+          oninput="this.nextElementSibling.textContent=this.value"
+        />
+        <p
+          style="
+            display: inline-block;
+            padding: 3px 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: white;
+          "
+        >
+          60
+        </p>
+      </div>
+
+      <!-- LETTERS PER SECOND -->
+      <div style="margin-bottom: 25px">
+        <h4>Letters per second</h4>
+        <input
+          type="range"
+          min="0.5"
+          max="5"
+          step="0.1"
+          value="1"
+          id="lps"
+          style="width: 100%"
+          oninput="this.nextElementSibling.textContent=this.value"
+        />
+        <p
+          style="
+            display: inline-block;
+            padding: 3px 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: white;
+          "
+        >
+          1
+        </p>
+      </div>
+
+  <!-- AMOUNT OF WORDS -->
+<div style="margin-bottom: 25px">
+  <h4>Amount of words generated</h4>
+  <input
+    type="number"
+    min="1"
+    max="15"
+    value="1"
+    id="wordCount"
+    style="width: 100%; padding: 5px; border-radius: 6px"
+  />
+<!-- MISTAKES -->
+<div style="margin-bottom: 25px">
+  <h4>Amount of mistakes per letter</h4>
+  <input
+    type="number"
+    min="0"
+    max="5"
+    value="0"
+    id="mistakes"
+    style="width: 100%; padding: 5px; border-radius: 6px"
+  />
+</div>
+      <!-- LANGUAGE -->
+      <h4>Language</h4>
+      <select id="language">
+        <option value="en">English</option>
+        <option value="id">Indonesian</option>
+      </select>
+
+      <!-- PLAY -->
+     <button
+  style="
+    background-color: lightgreen;
+    font-size: 1.7rem;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    margin-top: 20px;
+  "
+  onclick="startSemaphore()"
+>
+  PLAY
+</button>
+
+    </div>
+
+    <!-- CANVAS (BOTTOM) -->
+    <canvas
+      id="canvas"
+      width="500"
+      height="500"
+      style="
+        margin-top: 30px;
+        margin-bottom: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      "
+    ></canvas>
+
+    <!-- SCRIPTS -->
+    <script src="semaphore.js"></script>
+    <script src="semaphoreIndex.js"></script>
+
+ 
+  </body>
+</html>
