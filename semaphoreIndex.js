@@ -413,7 +413,7 @@ function mod(x, y) {
   return ((x % y) + y) % y;
 }
 function startSemaphore() {
-  const fps = +document.getElementById("fps").value;
+  fps = +document.getElementById("fps").value;
   const lps = +document.getElementById("lps").value;
   const wordCount = +document.getElementById("wordCount").value;
   const mistakes = +document.getElementById("mistakes").value;
