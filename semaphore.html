@@ -130,7 +130,7 @@
   />
 <!-- MISTAKES -->
 <div style="margin-bottom: 25px">
-  <h4>Amount of mistakes per letter</h4>
+  <h4>Amount of mistakes</h4>
   <input
     type="number"
     min="0"
@@ -180,6 +180,42 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       "
     ></canvas>
+<div
+  id="resultsPanel"
+  style="
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    filter: blur(8px);
+    pointer-events: none;
+    transition: 0.3s;
+  "
+>
+  <h3>Results</h3>
+
+  <p><b>Semaphore shown:</b> <span id="resultMistake">---</span></p>
+  <p><b>Correct text:</b> <span id="resultText">---</span></p>
+</div>
+
+<button
+  id="showResultsBtn"
+  style="margin-top: 10px; padding: 10px; font-size: 1rem"
+  onclick="if(!isPlaying)showResults()"
+  disabled
+>
+  Show Results
+</button>
+
+<button
+  style="margin-top: 10px; padding: 10px; font-size: 1rem"
+  onclick="replaySemaphore()"
+>
+  Replay
+</button>
 
     <!-- SCRIPTS -->
     <script src="semaphore.js"></script>

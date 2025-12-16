@@ -194,8 +194,17 @@ function HandHoldingSemaphore(base, hand = "left") {
         this.flag.baseX = this.baseX + offset.x;
         this.flag.baseY = this.baseY + offset.y;
 
-        await sleep(1000 / fps);
+        if (!(i >= fps * seconds - 1)) await sleep(1000 / fps);
       }
+      this.TrueDirection = target;
+      this.Direction =
+        Math.max(this.TrueDirection, Math.PI / 4) +
+        Math.max(0, this.TrueDirection - (Math.PI * 7) / 4);
+      this.flag.Direction = clamped;
+      const offset = rotate({ x: 0, y: this.handLength }, -this.Direction);
+      this.flag.baseX = this.baseX + offset.x;
+      this.flag.baseY = this.baseY + offset.y;
+      await sleep(1000 / fps);
     } else {
       let delta =
         mod(target, Math.PI * 2) - mod(this.TrueDirection, Math.PI * 2);
@@ -222,8 +231,17 @@ function HandHoldingSemaphore(base, hand = "left") {
         this.flag.baseX = this.baseX + offset.x;
         this.flag.baseY = this.baseY + offset.y;
 
-        await sleep(1000 / fps);
+        if (!(i >= fps * seconds - 1)) await sleep(1000 / fps);
       }
+      this.TrueDirection = target;
+      this.Direction =
+        Math.min(this.TrueDirection, (Math.PI / 4) * 7) -
+        Math.max(0, Math.PI / 4 - this.TrueDirection);
+      this.flag.Direction = clamped;
+      const offset = rotate({ x: 0, y: this.handLength }, -this.Direction);
+      this.flag.baseX = this.baseX + offset.x;
+      this.flag.baseY = this.baseY + offset.y;
+      await sleep(1000 / fps);
     }
   };
   this.goToMiddle = async (seconds, fps) => {
@@ -310,8 +328,12 @@ function HandHoldingSemaphore(base, hand = "left") {
       this.flag.baseX = this.baseX + offset.x;
       this.flag.baseY = this.baseY + offset.y;
 
-      await sleep(1000 / fps);
+      if (!(i >= fps * seconds - 1)) await sleep(1000 / fps);
     }
+    this.TrueDirection = target;
+    this.Direction = handtarget;
+    this.flag.Direction = clamped;
+    await sleep(1000 / fps);
   };
 
   this.draw = (ctx, dt = 10) => {
@@ -399,33 +421,75 @@ async function play(text, lps, person) {
       translatedText += " ";
     }
   }
+  translatedText += " ";
+
   for (let i = 0; i < translatedText.length; i++) {
     await showLetter(
       translatedText[i],
-      1 / lps,
+      Math.ceil((1 / lps) * 100) / 100,
       fps,
       person,
       i + 1 < translatedText.length ? translatedText[i + 1] : " "
     );
   }
+  return;
 }
 function mod(x, y) {
   return ((x % y) + y) % y;
 }
-function startSemaphore() {
+async function startSemaphore() {
+  if (isPlaying) return;
+
   fps = +document.getElementById("fps").value;
   const lps = +document.getElementById("lps").value;
   const wordCount = +document.getElementById("wordCount").value;
   const mistakes = +document.getElementById("mistakes").value;
   const lang = document.getElementById("language").value;
 
-  // example placeholder text generator
-  let text = getRandomWords(lang, wordCount);
-
+  const text = getRandomWords(lang, wordCount);
   const textWithMistakes = addMistakes(text, mistakes);
 
-  console.log("Original:", text);
-  console.log("With mistakes:", textWithMistakes);
+  lastText = text;
+  lastTextWithMistakes = textWithMistakes;
 
-  play(textWithMistakes, lps, player);
+  hideResults();
+  isPlaying = true;
+
+  await play(textWithMistakes, lps, player);
+  isPlaying = false;
+  document.getElementById("showResultsBtn").disabled = false;
+}
+
+let lastText = "";
+let lastTextWithMistakes = "";
+let isPlaying = false;
+async function replaySemaphore() {
+  if (isPlaying || !lastTextWithMistakes) return;
+
+  const lps = +document.getElementById("lps").value;
+
+  hideResults();
+  isPlaying = true;
+  console.log("we");
+  await play(lastTextWithMistakes, lps, player);
+
+  isPlaying = false;
+
+  document.getElementById("showResultsBtn").disabled = false;
+}
+function showResults() {
+  const panel = document.getElementById("resultsPanel");
+  panel.style.filter = "blur(0)";
+  panel.style.pointerEvents = "auto";
+
+  document.getElementById("resultText").textContent = lastText;
+  document.getElementById("resultMistake").textContent = lastTextWithMistakes;
+}
+
+function hideResults() {
+  const panel = document.getElementById("resultsPanel");
+  panel.style.filter = "blur(8px)";
+  panel.style.pointerEvents = "none";
+
+  document.getElementById("showResultsBtn").disabled = true;
 }
