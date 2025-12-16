@@ -362,7 +362,7 @@ function person(facing, pos) {
     this.hand2.draw(ctx, fps);
   };
 }
-const player = new person("towards", { x: 225, y: 200 });
+const player = new person("towards", { x: 250, y: 200 });
 setInterval(() => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   player.draw(ctx, fps);
