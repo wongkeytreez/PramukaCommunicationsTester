@@ -37,19 +37,23 @@
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
       "
     >
-      <h1 style="padding: 10px; cursor: default; box-shadow: 10px 10px grey">
+      <h1
+        style="
+          padding: 10px;
+          cursor: default;
+          box-shadow: 10px 10px grey;
+          font-size: clamp(1rem, 4vw, 2rem);
+        "
+      >
         Morse code trainer
       </h1>
-
       <h1
         style="
           padding: 10px;
           cursor: pointer;
-          border-bottom: 2px solid transparent;
+          font-size: clamp(1rem, 4vw, 2rem);
         "
-        onmouseover="this.style.borderBottom='2px solid black'"
-        onmouseout="this.style.borderBottom='2px solid transparent'"
-        onclick="window.location.href=`semaphore.html`;"
+        onclick="window.location.href='semaphore.html'"
       >
         Semaphore trainer
       </h1>
@@ -58,13 +62,11 @@
         style="
           padding: 10px;
           cursor: pointer;
-          border-bottom: 2px solid transparent;
+          font-size: clamp(1rem, 4vw, 2rem);
         "
-        onmouseover="this.style.borderBottom='2px solid black'"
-        onmouseout="this.style.borderBottom='2px solid transparent'"
-        onclick="window.location.href=`sandi.html`;"
+        onclick="window.location.href='sandi.html'"
       >
-        Sandi Trainer
+        Sandi trainer
       </h1>
     </header>
 
