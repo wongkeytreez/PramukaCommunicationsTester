@@ -111,6 +111,7 @@ function showResults() {
 async function playMorse() {
   const playButton = document.getElementById("playButton");
   playButton.disabled = true;
+  await sleep(1000);
 
   const lang = document.getElementById("language").value;
   const words = Number(
